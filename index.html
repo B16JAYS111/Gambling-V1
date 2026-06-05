@@ -117,7 +117,7 @@
 
     <div id="video-poker-game" class="game-container">
         <h2>Video Poker</h2>
-        <canvas id="pokerCanvas" width="600" height="300" style="background: #0e6251;"></canvas>
+        <canvas id="pokerCanvas" name="canvas" class="game-canvas" width="600" height="300" style="background: #0e6251;"></canvas>
         <br><br>
         <div class="control-panel"><button id="deal-poker-btn">Deal / Draw</button></div>
     </div>
@@ -135,7 +135,7 @@
 
     <div id="blackjack-game" class="game-container hidden">
         <h2>Blackjack</h2>
-        <canvas id="blackjackCanvas" width="600" height="300" style="background: #1d6f42;"></canvas> 
+        <canvas id="blackjackCanvas" name="canvas" class="game-canvas" width="600" height="300" style="background: #1d6f42;"></canvas> 
         <div class="control-panel" style="margin-top:20px;">
             <button id="bj-deal">Deal Hand</button>
             <button id="bj-hit">Hit</button>
@@ -145,7 +145,7 @@
 
     <div id="horse-racing-game" class="game-container hidden">
         <h2>Horse Racing</h2>
-        <canvas id="horseCanvas" width="700" height="350" style="background: #27ae60;"></canvas>
+        <canvas id="horseCanvas" name="canvas" class="game-canvas" width="700" height="350" style="background: #27ae60;"></canvas>
         <br><br>
         <div class="control-panel"><button id="start-race-btn">Start Race</button></div>
     </div>
@@ -165,18 +165,46 @@
 
     <script>
         function showGame(gameId) {
+            // 1. Hide every single game display area 
             const games = ['video-poker', 'texas-holdem', 'blackjack', 'horse-racing', 'slots'];
             games.forEach(id => {
-                document.getElementById(`${id}-game`).classList.add('hidden');
+                const element = document.getElementById(`${id}-game`);
+                if (element) element.classList.add('hidden');
             });
-            document.getElementById(`${gameId}-game`).classList.remove('hidden');
             
-            // Trigger local initializer functions safely if they exist
-            if (gameId === 'video-poker' && typeof initVideoPoker === 'function') initVideoPoker();
-            if (gameId === 'texas-holdem' && typeof startHoldemGame === 'function') startHoldemGame();
-            if (gameId === 'blackjack' && typeof initBlackjack === 'function') initBlackjack();
-            if (gameId === 'horse-racing' && typeof initHorseRacing === 'function') initHorseRacing();
+            // 2. Open up the newly targeted board context window
+            const activeGame = document.getElementById(`${gameId}-game`);
+            if (activeGame) activeGame.classList.remove('hidden');
+            
+            // 3. Fallback Core Execution Safety Loop
+            try {
+                if (gameId === 'video-poker') {
+                    if (typeof initVideoPoker === 'function') initVideoPoker();
+                    else if (typeof drawHand === 'function') drawHand();
+                    else if (typeof resetGame === 'function') resetGame();
+                }
+                if (gameId === 'texas-holdem' && typeof startHoldemGame === 'function') {
+                    startHoldemGame();
+                }
+                if (gameId === 'blackjack') {
+                    if (typeof initBlackjack === 'function') initBlackjack();
+                    else if (typeof startNewGame === 'function') startNewGame();
+                    else if (typeof drawBlackjack === 'function') drawBlackjack();
+                }
+                if (gameId === 'horse-racing') {
+                    if (typeof initHorseRacing === 'function') initHorseRacing();
+                    else if (typeof drawTrack === 'function') drawTrack();
+                    else if (typeof startRace === 'function') startRace();
+                }
+            } catch (error) {
+                console.warn("Interface script wrapper running structural catch verification: ", error);
+            }
         }
+
+        // Boot default layout context frame upon live site ready state
+        window.addEventListener('load', () => {
+            showGame('video-poker'); 
+        });
     </script>
 
     <script src="video-poker.js"></script>
