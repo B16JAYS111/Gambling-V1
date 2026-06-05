@@ -3,24 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Casino Project</title>
+    <title>My Grand Casino</title>
     <style>
-        /* Modern, clean casino styling */
         body {
-            background-color: #1a3c1e; /* Classic casino green background */
+            background-color: #1a3c1e; /* Casino green */
             color: white;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
             margin: 0;
             padding: 20px;
         }
+        h1 { color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         
-        h1 {
-            margin-top: 10px;
-            color: #f1c40f;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
         .balance-display {
             font-size: 26px;
             font-weight: bold;
@@ -33,7 +27,7 @@
             border: 2px solid #2ecc71;
         }
 
-        /* Top navigation menu bar */
+        /* Top Navigation Menu Bar */
         .menu-bar {
             background-color: #112213;
             padding: 15px;
@@ -41,26 +35,24 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        
         .menu-bar button {
             background-color: #e67e22;
             color: white;
             border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            margin: 0 10px;
+            padding: 12px 20px;
+            font-size: 14px;
+            margin: 5px;
             cursor: pointer;
             border-radius: 5px;
             font-weight: bold;
-            transition: background 0.2s, transform 0.1s;
+            transition: all 0.2s;
         }
-        
         .menu-bar button:hover {
             background-color: #d35400;
             transform: translateY(-2px);
         }
 
-        /* Game table container boxes */
+        /* Game containers */
         .game-container {
             background-color: #2c3e50;
             border: 4px solid #f1c40f;
@@ -72,17 +64,9 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
-        /* Utility class to hide/show active game windows */
-        .hidden {
-            display: none !important;
-        }
-
-        canvas {
-            border-radius: 8px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 4px 10px rgba(0,0,0,0.3);
-            max-width: 100%;
-        }
-
+        .hidden { display: none !important; }
+        canvas { border-radius: 8px; max-width: 100%; }
+        
         .control-panel button {
             background-color: #34495e;
             color: white;
@@ -93,48 +77,51 @@
             margin: 5px;
             cursor: pointer;
             border-radius: 5px;
-            transition: all 0.2s;
         }
+        .control-panel button:hover { background-color: #f1c40f; color: #2c3e50; }
 
-        .control-panel button:hover {
-            background-color: #f1c40f;
-            color: #2c3e50;
-            border-color: #f1c40f;
+        /* Quick styling helper for the new Slot Machine */
+        .slot-reel {
+            display: inline-block;
+            font-size: 60px;
+            background: white;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            margin: 10px;
+            border-radius: 10px;
+            border: 4px solid #7f8c8d;
+            color: black;
         }
     </style>
 </head>
 <body>
 
-    <h1>🎰 Welcome to the Casino 🃏</h1>
+    <h1>🎰 Welcome to the Grand Casino 🃏</h1>
     
     <div class="balance-display">
         Wallet: $<span id="player-balance">1000</span>
     </div>
 
     <div class="menu-bar">
-        <button onclick="showGame('video-poker')">Play Video Poker</button>
-        <button onclick="showGame('texas-holdem')">Play Texas Hold 'em</button>
+        <button onclick="showGame('video-poker')">Video Poker</button>
+        <button onclick="showGame('texas-holdem')">Texas Hold 'em</button>
+        <button onclick="showGame('blackjack')">Blackjack</button>
+        <button onclick="showGame('horse-racing')">Horse Racing</button>
+        <button onclick="showGame('slots')">Slots Machine</button>
     </div>
 
     <div id="video-poker-game" class="game-container">
         <h2>Video Poker</h2>
-        <p>Fix Status: Click anywhere inside the card frame boundaries to toggle a hold!</p>
-        
         <canvas id="pokerCanvas" width="600" height="300" style="background: #0e6251;"></canvas>
         <br><br>
-        
-        <div class="control-panel">
-            <button id="deal-poker-btn">Deal / Draw</button>
-        </div>
+        <div class="control-panel"><button id="deal-poker-btn">Deal / Draw</button></div>
     </div>
 
     <div id="texas-holdem-game" class="game-container hidden">
         <h2>Texas Hold 'em</h2>
-        <p>Face off against the house. Manage your streets sequentially below.</p>
-        
         <canvas id="holdemCanvas" width="700" height="350" style="background: #116743;"></canvas>
         <br><br>
-        
         <div id="holdem-controls" class="control-panel">
             <button>Check</button>
             <button style="border-color: #2ecc71;">Bet / Raise</button>
@@ -142,27 +129,50 @@
         </div>
     </div>
 
+    <div id="blackjack-game" class="game-container hidden">
+        <h2>Blackjack</h2>
+        <canvas id="blackjackCanvas" width="600" height="300" style="background: #1d6f42;"></canvas> 
+        <div id="blackjack-controls" class="control-panel" style="margin-top:20px;">
+            <button id="bj-hit">Hit</button>
+            <button id="bj-stand">Stand</button>
+        </div>
+    </div>
+
+    <div id="horse-racing-game" class="game-container hidden">
+        <h2>Horse Racing</h2>
+        <canvas id="horseCanvas" width="700" height="350" style="background: #27ae60;"></canvas>
+        <br><br>
+        <div class="control-panel"><button id="start-race-btn">Start Race</button></div>
+    </div>
+
+    <div id="slots-game" class="game-container hidden">
+        <h2>Lucky Slots</h2>
+        <div style="background: #111; padding: 20px; border-radius: 10px; display: inline-block;">
+            <div id="reel1" class="slot-reel">🍒</div>
+            <div id="reel2" class="slot-reel">🍋</div>
+            <div id="reel3" class="slot-reel">💎</div>
+        </div>
+        <br><br>
+        <div class="control-panel">
+            <button id="spin-slots-btn" style="background:#e74c3c; border-color:#f1c40f; font-size:20px;">SPIN ($10)</button>
+        </div>
+    </div>
+
     <script>
-        /**
-         * Hides inactive game layouts and exposes the chosen visual loop 
-         */
         function showGame(gameId) {
-            // Hide all layouts dynamically
-            document.getElementById('video-poker-game').classList.add('hidden');
-            document.getElementById('texas-holdem-game').classList.add('hidden');
-            
-            // Remove the hidden attribute on selection choice
-            if (gameId === 'video-poker') {
-                document.getElementById('video-poker-game').classList.remove('hidden');
-            } else if (gameId === 'texas-holdem') {
-                document.getElementById('texas-holdem-game').classList.remove('hidden');
-            }
+            const games = ['video-poker', 'texas-holdem', 'blackjack', 'horse-racing', 'slots'];
+            games.forEach(id => {
+                document.getElementById(`${id}-game`).classList.add('hidden');
+            });
+            document.getElementById(`${gameId}-game`).classList.remove('hidden');
         }
     </script>
 
     <script src="video-poker.js"></script>
-    
     <script src="texas-holdem.js"></script>
+    <script src="blackjack.js"></script>
+    <script src="horse-racing.js"></script>
+    <script src="slots.js"></script>
 
 </body>
 </html>
