@@ -6,7 +6,7 @@
     <title>My Grand Casino</title>
     <style>
         body {
-            background-color: #1a3c1e; /* Casino green */
+            background-color: #1a3c1e;
             color: white;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
@@ -15,25 +15,33 @@
         }
         h1 { color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         
-        .balance-display {
-            font-size: 26px;
-            font-weight: bold;
-            color: #2ecc71;
-            margin-bottom: 20px;
+        .casino-stats {
             background-color: #112213;
-            display: inline-block;
+            display: inline-flex;
+            gap: 20px;
+            align-items: center;
             padding: 10px 30px;
             border-radius: 30px;
             border: 2px solid #2ecc71;
+            margin-bottom: 20px;
+        }
+        .balance-display { font-size: 24px; font-weight: bold; color: #2ecc71; }
+        .bet-panel { font-size: 18px; color: #f1c40f; font-weight: bold; }
+        .bet-panel input {
+            width: 70px;
+            padding: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            border: 1px solid #f1c40f;
+            text-align: center;
         }
 
-        /* Top Navigation Menu Bar */
         .menu-bar {
             background-color: #112213;
             padding: 15px;
             margin-bottom: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
         .menu-bar button {
             background-color: #e67e22;
@@ -45,27 +53,20 @@
             cursor: pointer;
             border-radius: 5px;
             font-weight: bold;
-            transition: all 0.2s;
         }
-        .menu-bar button:hover {
-            background-color: #d35400;
-            transform: translateY(-2px);
-        }
+        .menu-bar button:hover { background-color: #d35400; }
 
-        /* Game containers */
         .game-container {
             background-color: #2c3e50;
             border: 4px solid #f1c40f;
             border-radius: 15px;
             max-width: 800px;
-            margin: 0 auto 40px auto;
+            margin: 0 auto;
             padding: 25px;
             min-height: 420px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-
         .hidden { display: none !important; }
-        canvas { border-radius: 8px; max-width: 100%; }
+        canvas { border-radius: 8px; max-width: 100%; border: 2px solid white; }
         
         .control-panel button {
             background-color: #34495e;
@@ -80,7 +81,6 @@
         }
         .control-panel button:hover { background-color: #f1c40f; color: #2c3e50; }
 
-        /* Quick styling helper for the new Slot Machine */
         .slot-reel {
             display: inline-block;
             font-size: 60px;
@@ -99,8 +99,12 @@
 
     <h1>🎰 Welcome to the Grand Casino 🃏</h1>
     
-    <div class="balance-display">
-        Wallet: $<span id="player-balance">1000</span>
+    <div class="casino-stats">
+        <div class="balance-display">Wallet: $<span id="player-balance">1000</span></div>
+        <div class="bet-panel">
+            <label for="global-bet">Your Bet: $</label>
+            <input type="number" id="global-bet" value="10" min="1">
+        </div>
     </div>
 
     <div class="menu-bar">
@@ -123,16 +127,17 @@
         <canvas id="holdemCanvas" width="700" height="350" style="background: #116743;"></canvas>
         <br><br>
         <div id="holdem-controls" class="control-panel">
-            <button>Check</button>
-            <button style="border-color: #2ecc71;">Bet / Raise</button>
-            <button style="border-color: #e74c3c;">Fold</button>
+            <button id="holdem-check">Check</button>
+            <button id="holdem-bet" style="border-color: #2ecc71;">Bet / Raise</button>
+            <button id="holdem-fold" style="border-color: #e74c3c;">Fold</button>
         </div>
     </div>
 
     <div id="blackjack-game" class="game-container hidden">
         <h2>Blackjack</h2>
         <canvas id="blackjackCanvas" width="600" height="300" style="background: #1d6f42;"></canvas> 
-        <div id="blackjack-controls" class="control-panel" style="margin-top:20px;">
+        <div class="control-panel" style="margin-top:20px;">
+            <button id="bj-deal">Deal Hand</button>
             <button id="bj-hit">Hit</button>
             <button id="bj-stand">Stand</button>
         </div>
@@ -154,7 +159,7 @@
         </div>
         <br><br>
         <div class="control-panel">
-            <button id="spin-slots-btn" style="background:#e74c3c; border-color:#f1c40f; font-size:20px;">SPIN ($10)</button>
+            <button id="spin-slots-btn" style="background:#e74c3c; border-color:#f1c40f; font-size:20px;">SPIN</button>
         </div>
     </div>
 
@@ -165,6 +170,12 @@
                 document.getElementById(`${id}-game`).classList.add('hidden');
             });
             document.getElementById(`${gameId}-game`).classList.remove('hidden');
+            
+            // Trigger local initializer functions safely if they exist
+            if (gameId === 'video-poker' && typeof initVideoPoker === 'function') initVideoPoker();
+            if (gameId === 'texas-holdem' && typeof startHoldemGame === 'function') startHoldemGame();
+            if (gameId === 'blackjack' && typeof initBlackjack === 'function') initBlackjack();
+            if (gameId === 'horse-racing' && typeof initHorseRacing === 'function') initHorseRacing();
         }
     </script>
 
@@ -173,6 +184,5 @@
     <script src="blackjack.js"></script>
     <script src="horse-racing.js"></script>
     <script src="slots.js"></script>
-
 </body>
 </html>
