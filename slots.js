@@ -20,8 +20,8 @@ document.getElementById('spin-slots-btn').onclick = function() {
 
     // Check win conditions
     if (r1 === r2 && r2 === r3) {
-        alert("JACKPOT! You won $200!");
-        balanceEl.innerText = parseInt(balanceEl.innerText) + 200;
+        alert("JACKPOT! You won $2m!");
+        balanceEl.innerText = parseInt(balanceEl.innerText) + 2000000;
     } else if (r1 === r2 || r2 === r3 || r1 === r3) {
         alert("Two of a kind! You won $20!");
         balanceEl.innerText = parseInt(balanceEl.innerText) + 20;
