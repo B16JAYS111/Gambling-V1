@@ -3,210 +3,494 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Grand Casino</title>
+    <title>The Grand Casino & Lounge</title>
+    <!-- Google Fonts for Luxury Casino Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --gold-primary: #f1c40f;
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --bg-dark: #0a110b;
+            --felt-green: #0d2818;
+            --card-bg: rgba(18, 30, 20, 0.85);
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
         body {
-            background-color: #1a3c1e;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(30, 80, 45, 0.4) 0%, transparent 70%),
+                radial-gradient(circle at 80% 80%, rgba(15, 40, 25, 0.5) 0%, transparent 50%);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
             margin: 0;
-            padding: 20px;
+            padding: 20px 10px;
+            min-height: 100vh;
         }
-        h1 { color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        
+
+        /* Metallic Gold Title */
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(241, 196, 15, 0.3);
+            margin: 10px 0 20px 0;
+        }
+
+        /* Top Casino Stats Bar (Glassmorphic) */
         .casino-stats {
-            background-color: #112213;
+            background: rgba(13, 40, 24, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: inline-flex;
+            flex-wrap: wrap;
             gap: 20px;
             align-items: center;
-            padding: 10px 30px;
-            border-radius: 30px;
-            border: 2px solid #2ecc71;
-            margin-bottom: 20px;
-        }
-        .balance-display { font-size: 24px; font-weight: bold; color: #2ecc71; }
-        .bet-panel { font-size: 18px; color: #f1c40f; font-weight: bold; }
-        .bet-panel input {
-            width: 70px;
-            padding: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            border: 1px solid #f1c40f;
-            text-align: center;
+            justify-content: center;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 1px solid rgba(241, 196, 15, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(46, 204, 113, 0.1);
+            margin-bottom: 25px;
         }
 
-        .menu-bar {
-            background-color: #112213;
-            padding: 15px;
-            margin-bottom: 30px;
+        .balance-display {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+        }
+
+        .bet-panel {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            color: var(--gold-primary);
+            font-weight: 600;
+        }
+
+        .bet-input-wrapper {
+            display: flex;
+            align-items: center;
+            background: #000000;
+            border: 2px solid var(--gold-primary);
             border-radius: 8px;
+            padding: 2px;
         }
-        .menu-bar button {
-            background-color: #e67e22;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 14px;
-            margin: 5px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-        .menu-bar button:hover { background-color: #d35400; }
 
+        .bet-btn-adjust {
+            background: #222;
+            color: var(--gold-primary);
+            border: none;
+            width: 30px;
+            height: 32px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .bet-btn-adjust:hover {
+            background: var(--gold-primary);
+            color: #000;
+        }
+
+        .bet-panel input {
+            width: 80px;
+            background: transparent;
+            color: #ffffff;
+            border: none;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Quick Betting Chip Presets */
+        .chip-presets {
+            display: flex;
+            gap: 6px;
+            margin-left: 10px;
+        }
+
+        .chip-btn {
+            background: linear-gradient(145deg, #1e272e, #0f171e);
+            color: var(--gold-primary);
+            border: 1px solid var(--gold-primary);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip-btn:hover {
+            background: var(--gold-gradient);
+            color: #000;
+            box-shadow: 0 0 10px rgba(241, 196, 15, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Navigation Menu Bar */
+        .menu-bar {
+            background: rgba(10, 20, 12, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 8px;
+            margin: 0 auto 30px auto;
+            border-radius: 12px;
+            max-width: 850px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-bar button {
+            background: rgba(255, 255, 255, 0.05);
+            color: #dcdde1;
+            border: 1px solid transparent;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .menu-bar button:hover {
+            background: rgba(241, 196, 15, 0.15);
+            color: var(--gold-primary);
+            border-color: rgba(241, 196, 15, 0.4);
+        }
+
+        .menu-bar button.active-tab {
+            background: var(--gold-gradient);
+            color: #000000;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+        }
+
+        /* Main Game Display Container */
         .game-container {
-            background-color: #2c3e50;
-            border: 4px solid #f1c40f;
-            border-radius: 15px;
-            max-width: 800px;
+            background: var(--card-bg);
+            border: 2px solid rgba(241, 196, 15, 0.5);
+            border-radius: 20px;
+            max-width: 820px;
             margin: 0 auto;
             padding: 25px;
-            min-height: 420px;
+            min-height: 460px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 0 80px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
         }
+
+        .game-container h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-primary);
+            margin-top: 0;
+            letter-spacing: 1px;
+            font-size: 1.8rem;
+        }
+
         .hidden { display: none !important; }
-        canvas { border-radius: 8px; max-width: 100%; border: 2px solid white; }
-        
-        .control-panel button {
-            background-color: #34495e;
-            color: white;
-            border: 2px solid #bdc3c7;
-            padding: 12px 25px;
-            font-size: 15px;
-            font-weight: bold;
-            margin: 5px;
-            cursor: pointer;
-            border-radius: 5px;
+
+        canvas {
+            border-radius: 12px;
+            max-width: 100%;
+            border: 2px solid rgba(241, 196, 15, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
         }
-        .control-panel button:hover { background-color: #f1c40f; color: #2c3e50; }
+        
+        /* Unified Modern Control Buttons */
+        .control-panel button {
+            background: linear-gradient(180deg, #2c3e50, #1a252f);
+            color: #ffffff;
+            border: 1px solid var(--gold-primary);
+            padding: 12px 28px;
+            font-size: 15px;
+            font-weight: 700;
+            margin: 6px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .control-panel button:hover {
+            background: var(--gold-gradient);
+            color: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(241, 196, 15, 0.4);
+        }
+
+        .control-panel button:active {
+            transform: translateY(0);
+        }
+
+        /* Slot Machine Styling Upgrade */
+        .slots-cabinet {
+            background: linear-gradient(180deg, #111111, #222222);
+            padding: 25px;
+            border-radius: 16px;
+            display: inline-block;
+            border: 3px solid var(--gold-primary);
+            box-shadow: 0 0 25px rgba(241, 196, 15, 0.2);
+        }
 
         .slot-reel {
             display: inline-block;
-            font-size: 60px;
-            background: white;
-            width: 100px;
-            height: 100px;
-            line-height: 100px;
-            margin: 10px;
-            border-radius: 10px;
-            border: 4px solid #7f8c8d;
+            font-size: 65px;
+            background: linear-gradient(180deg, #ffffff, #e0e0e0);
+            width: 110px;
+            height: 110px;
+            line-height: 110px;
+            margin: 8px;
+            border-radius: 12px;
+            border: 3px solid #444;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.4), 0 5px 10px rgba(0,0,0,0.5);
             color: black;
         }
     </style>
 </head>
 <body>
 
-    <h1>🎰 Welcome to the Grand Casino 🃏</h1>
+    <h1>🎰 THE GRAND CASINO 🎲</h1>
     
+    <!-- Top Bar: Balance & Synchronized Global Bet Panel -->
     <div class="casino-stats">
         <div class="balance-display">Wallet: $<span id="player-balance">1000</span></div>
         <div class="bet-panel">
-            <label for="global-bet">Your Bet: $</label>
-            <input type="number" id="global-bet" value="10" min="1">
+            <label for="global-bet">Wager:</label>
+            <div class="bet-input-wrapper">
+                <button class="bet-btn-adjust" onclick="adjustBet(-5)">-</button>
+                <input type="number" id="global-bet" value="10" min="1" step="1">
+                <button class="bet-btn-adjust" onclick="adjustBet(5)">+</button>
+            </div>
+            
+            <!-- Quick Chips to change bet easily -->
+            <div class="chip-presets">
+                <button class="chip-btn" onclick="adjustBet(5)">+$5</button>
+                <button class="chip-btn" onclick="adjustBet(25)">+$25</button>
+                <button class="chip-btn" onclick="adjustBet(100)">+$100</button>
+                <button class="chip-btn" onclick="multiplyBet(2)">2x</button>
+                <button class="chip-btn" onclick="resetBet(10)">Clear</button>
+            </div>
         </div>
     </div>
 
+    <!-- Navigation Tabs -->
     <div class="menu-bar">
-        <button onclick="showGame('video-poker')">Video Poker</button>
-        <button onclick="showGame('texas-holdem')">Texas Hold 'em</button>
-        <button onclick="showGame('blackjack')">Blackjack</button>
-        <button onclick="showGame('horse-racing')">Horse Racing</button>
-        <button onclick="showGame('slots')">Slots Machine</button>
+        <button id="tab-video-poker" onclick="showGame('video-poker')">🎴 Video Poker</button>
+        <button id="tab-texas-holdem" onclick="showGame('texas-holdem')">♠️ Texas Hold 'em</button>
+        <button id="tab-blackjack" onclick="showGame('blackjack')">🃏 Blackjack</button>
+        <button id="tab-horse-racing" onclick="showGame('horse-racing')">🐎 Horse Racing</button>
+        <button id="tab-slots" onclick="showGame('slots')">🎰 Lucky Slots</button>
     </div>
 
+    <!-- Video Poker Room -->
     <div id="video-poker-game" class="game-container">
-        <h2>Video Poker</h2>
-        <canvas id="pokerCanvas" name="canvas" class="game-canvas" width="600" height="300" style="background: #0e6251;"></canvas>
+        <h2>Jacks or Better - Video Poker</h2>
+        <canvas id="pokerCanvas" class="game-canvas" width="650" height="460"></canvas>
         <br><br>
-        <div class="control-panel"><button id="deal-poker-btn">Deal / Draw</button></div>
+        <div class="control-panel">
+            <button id="poker-bet-btn">Bet One</button>
+            <button id="poker-max-btn">Bet Max</button>
+            <button id="poker-deal-btn" style="border-color: var(--gold-primary);">DEAL / DRAW</button>
+        </div>
     </div>
 
+    <!-- Texas Hold 'em Room -->
     <div id="texas-holdem-game" class="game-container hidden">
-        <h2>Texas Hold 'em</h2>
-        <canvas id="holdemCanvas" width="700" height="350" style="background: #116743;"></canvas>
+        <h2>Texas Hold 'em Poker</h2>
+        <canvas id="holdemCanvas" width="700" height="350"></canvas>
         <br><br>
         <div id="holdem-controls" class="control-panel">
-            <button id="holdem-check">Check</button>
-            <button id="holdem-bet" style="border-color: #2ecc71;">Bet / Raise</button>
-            <button id="holdem-fold" style="border-color: #e74c3c;">Fold</button>
+            <button id="holdem-check">Check / Call</button>
+            <button id="holdem-bet" style="border-color: var(--accent-green);">Raise</button>
+            <button id="holdem-fold" style="border-color: var(--accent-red);">Fold</button>
         </div>
     </div>
 
+    <!-- Blackjack Room -->
     <div id="blackjack-game" class="game-container hidden">
-        <h2>Blackjack</h2>
-        <canvas id="blackjackCanvas" name="canvas" class="game-canvas" width="600" height="300" style="background: #1d6f42;"></canvas> 
+        <h2>Classic 21 Blackjack</h2>
+        <canvas id="blackjackCanvas" class="game-canvas" width="600" height="300"></canvas> 
         <div class="control-panel" style="margin-top:20px;">
-            <button id="bj-deal">Deal Hand</button>
+            <button id="bj-deal" style="border-color: var(--gold-primary);">Deal Hand</button>
             <button id="bj-hit">Hit</button>
             <button id="bj-stand">Stand</button>
         </div>
     </div>
 
+    <!-- Horse Racing Room -->
     <div id="horse-racing-game" class="game-container hidden">
-        <h2>Horse Racing</h2>
-        <canvas id="horseCanvas" name="canvas" class="game-canvas" width="700" height="350" style="background: #27ae60;"></canvas>
+        <h2>Derby Horse Racing</h2>
+        <canvas id="horseCanvas" class="game-canvas" width="700" height="350"></canvas>
         <br><br>
-        <div class="control-panel"><button id="start-race-btn">Start Race</button></div>
+        <div class="control-panel">
+            <label for="horse-select" style="font-weight: 600; color: var(--gold-primary); margin-right: 8px;">Pick Horse:</label>
+            <select id="horse-select" style="padding: 8px 12px; border-radius: 6px; font-weight: bold; margin-right: 15px;">
+                <option value="1">#1 Thunder Bolt (2.5x)</option>
+                <option value="2">#2 Midnight Star (4.0x)</option>
+                <option value="3">#3 Golden Arrow (5.5x)</option>
+                <option value="4">#4 Lucky Streak (8.0x)</option>
+                <option value="5">#5 Shadow Runner (12.0x)</option>
+            </select>
+            <button id="start-race-btn" style="border-color: var(--gold-primary);">Start Race</button>
+        </div>
     </div>
 
+    <!-- Slots Machine Room -->
     <div id="slots-game" class="game-container hidden">
-        <h2>Lucky Slots</h2>
-        <div style="background: #111; padding: 20px; border-radius: 10px; display: inline-block;">
+        <h2>Vegas Jackpot Slots</h2>
+        <div class="slots-cabinet">
             <div id="reel1" class="slot-reel">🍒</div>
             <div id="reel2" class="slot-reel">🍋</div>
             <div id="reel3" class="slot-reel">💎</div>
         </div>
         <br><br>
         <div class="control-panel">
-            <button id="spin-slots-btn" style="background:#e74c3c; border-color:#f1c40f; font-size:20px;">SPIN</button>
+            <button id="spin-slots-btn" style="background: linear-gradient(180deg, #e74c3c, #c0392b); border-color: var(--gold-primary); font-size: 20px; padding: 14px 40px;">SPIN</button>
         </div>
     </div>
 
+    <!-- Global Bet Synchronization & Controller Logic -->
     <script>
+        // ==========================================
+        // DYNAMIC BET SYNCHRONIZER
+        // ==========================================
+        function getGlobalBet() {
+            const input = document.getElementById('global-bet');
+            let val = parseInt(input.value, 10);
+            if (isNaN(val) || val < 1) val = 1;
+            return val;
+        }
+
+        function setGlobalBet(amount) {
+            const input = document.getElementById('global-bet');
+            const safeAmount = Math.max(1, amount);
+            input.value = safeAmount;
+            syncBetToEngines(safeAmount);
+        }
+
+        function adjustBet(delta) {
+            setGlobalBet(getGlobalBet() + delta);
+        }
+
+        function multiplyBet(factor) {
+            setGlobalBet(getGlobalBet() * factor);
+        }
+
+        function resetBet(defaultVal = 10) {
+            setGlobalBet(defaultVal);
+        }
+
+        // Propagates the wager value to all game engines
+        function syncBetToEngines(betVal) {
+            // 1. Sync Texas Hold 'em
+            if (window.holdemGame) {
+                window.holdemGame.betSize = betVal;
+            }
+            if (typeof holdemBetAmount !== 'undefined') {
+                holdemBetAmount = betVal;
+            }
+
+            // 2. Sync Horse Racing
+            if (window.horseEngine) {
+                window.horseEngine.betAmount = betVal;
+            }
+
+            // 3. Sync Slots Engine
+            if (typeof CONFIG !== 'undefined') {
+                CONFIG.BET_AMOUNT = betVal;
+            }
+
+            // 4. Sync Video Poker
+            if (window.videoPokerGame) {
+                window.videoPokerGame.betUnit = betVal;
+                window.videoPokerGame.render();
+            }
+        }
+
+        // Listen for manual text changes in the wager input field
+        document.getElementById('global-bet').addEventListener('input', (e) => {
+            let val = parseInt(e.target.value, 10);
+            if (!isNaN(val) && val >= 1) {
+                syncBetToEngines(val);
+            }
+        });
+
+        // ==========================================
+        // GAME TAB SWITCHER
+        // ==========================================
         function showGame(gameId) {
-            // 1. Hide every single game display area 
             const games = ['video-poker', 'texas-holdem', 'blackjack', 'horse-racing', 'slots'];
+            
+            // Hide all views and reset active tab styling
             games.forEach(id => {
                 const element = document.getElementById(`${id}-game`);
+                const tab = document.getElementById(`tab-${id}`);
                 if (element) element.classList.add('hidden');
+                if (tab) tab.classList.remove('active-tab');
             });
             
-            // 2. Open up the newly targeted board context window
+            // Show requested game and highlight tab
             const activeGame = document.getElementById(`${gameId}-game`);
+            const activeTab = document.getElementById(`tab-${gameId}`);
             if (activeGame) activeGame.classList.remove('hidden');
+            if (activeTab) activeTab.classList.add('active-tab');
             
-            // 3. Fallback Core Execution Safety Loop
+            // Sync active bet state immediately on tab switch
+            syncBetToEngines(getGlobalBet());
+
+            // Initialize/Refresh target game engine
             try {
                 if (gameId === 'video-poker') {
                     if (typeof initVideoPoker === 'function') initVideoPoker();
-                    else if (typeof drawHand === 'function') drawHand();
-                    else if (typeof resetGame === 'function') resetGame();
                 }
                 if (gameId === 'texas-holdem' && typeof startHoldemGame === 'function') {
                     startHoldemGame();
                 }
                 if (gameId === 'blackjack') {
                     if (typeof initBlackjack === 'function') initBlackjack();
-                    else if (typeof startNewGame === 'function') startNewGame();
-                    else if (typeof drawBlackjack === 'function') drawBlackjack();
                 }
                 if (gameId === 'horse-racing') {
                     if (typeof initHorseRacing === 'function') initHorseRacing();
-                    else if (typeof drawTrack === 'function') drawTrack();
-                    else if (typeof startRace === 'function') startRace();
                 }
             } catch (error) {
-                console.warn("Interface script wrapper running structural catch verification: ", error);
+                console.warn("Engine execution notice: ", error);
             }
         }
 
-        // Boot default layout context frame upon live site ready state
+        // Boot-up default layout when page loads
         window.addEventListener('load', () => {
-            showGame('video-poker'); 
+            showGame('video-poker');
+            syncBetToEngines(getGlobalBet());
         });
     </script>
 
+    <!-- External Game Scripts -->
     <script src="video-poker.js"></script>
     <script src="texas-holdem.js"></script>
     <script src="blackjack.js"></script>
